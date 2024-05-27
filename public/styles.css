@@ -1,23 +1,80 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f5f5f5;
+}
+
 #chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    height: 80vh;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
+
 #messages {
-    height: 300px;
-    overflow-y: scroll;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 10px;
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #eaeaea;
 }
+
+.message {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 75%;
+    word-wrap: break-word;
+}
+
+.message.sent {
+    align-self: flex-end;
+    background-color: #d1e7dd;
+}
+
+.message.received {
+    align-self: flex-start;
+    background-color: #f8d7da;
+}
+
+#input-container {
+    display: flex;
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #ccc;
+}
+
 #message-input {
-    width: calc(100% - 70px);
+    flex: 1;
     padding: 10px;
-    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 16px;
 }
+
 #send-button {
-    padding: 10px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#send-button:hover {
+    background-color: #218838;
 }

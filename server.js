@@ -19,9 +19,11 @@ if (fs.existsSync(messagesFile)) {
     fs.writeFileSync(messagesFile, JSON.stringify([]));
 }
 
+// Загружаем слова для генерации имени пользователя
+const words = JSON.parse(fs.readFileSync('words.json', 'utf8'));
+
 // Генерация случайного имени пользователя
 const generateUsername = () => {
-    const words = JSON.parse(fs.readFileSync('words.json', 'utf8'));
     const word1 = words[Math.floor(Math.random() * words.length)];
     const word2 = words[Math.floor(Math.random() * words.length)];
     return `${word1}${word2}`;
@@ -33,16 +35,22 @@ io.on('connection', (socket) => {
     // Отправляем последние 10 сообщений новому пользователю
     socket.emit('previousMessages', messages.slice(-10));
 
+    // Генерируем и отправляем имя пользователя
     const username = generateUsername();
+    socket.emit('setUsername', username);
 
-    socket.on('sendMessage', (message) => {
-        const msg = { username, text: message, timestamp: new Date() };
+    socket.on('getUsername', () => {
+        socket.emit('setUsername', username);
+    });
+
+    socket.on('sendMessage', (messageText) => {
+        const msg = { username, text: messageText, timestamp: new Date() };
         messages.push(msg);
 
         // Сохраняем сообщения в файл
         fs.writeFileSync(messagesFile, JSON.stringify(messages));
         
-        io.emit('newMessage', msg);
+        io.emit('newMessage', msg); // Отправляем сообщение всем клиентам
     });
 
     socket.on('disconnect', () => {
